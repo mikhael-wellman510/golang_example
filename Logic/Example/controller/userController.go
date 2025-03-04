@@ -7,14 +7,14 @@ import (
 
 // Class dan atribut
 type UserController struct {
-	UserService service.UserService
+	UserService *service.UserService
 }
 
 // Constructor
-func NewUserController(userService service.UserService) UserController {
+func NewUserController(userService *service.UserService) *UserController {
 
 	// Mereturn Object Usercontroller , sehingga bisa panggil method
-	return UserController{
+	return &UserController{
 		UserService: userService,
 	}
 }

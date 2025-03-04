@@ -19,4 +19,6 @@ func HitUser(userController controller.UserController) {
 	fmt.Println("data user new : ", findAllUser2)
 
 	// Find By Id
+
+	fmt.Println("====================== finished =================")
 }

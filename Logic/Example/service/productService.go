@@ -10,13 +10,14 @@ import (
 type ProductService struct {
 
 	// Private final ProductRepository
-	ProductRepository repo.ProductRepository
+	ProductRepository *repo.ProductRepository
 }
 
-func NewProductService(productRepository repo.ProductRepository) ProductService {
+// Todo -> Ini untuk di panggil , untuk mengisi str
+func NewProductService(productRepository *repo.ProductRepository) *ProductService {
 
 	// Todo -> ini isi data ke struct , seperti this di oop
-	return ProductService{ProductRepository: productRepository}
+	return &ProductService{ProductRepository: productRepository}
 }
 
 // Method nya
@@ -57,4 +58,28 @@ func (ps *ProductService) FindProductByIdService(id int) (dto.ProductResponse, b
 		Quantity:  res.Qty,
 		CreatedAt: time.Now(),
 	}, true
+}
+
+func (ps *ProductService) EditProductService(productRequest dto.ProductRequest) (dto.ProductResponse, bool) {
+
+	saveProduct := entity.Product{
+		Id:    productRequest.Id,
+		Nama:  productRequest.Nama,
+		Harga: productRequest.Harga,
+		Qty:   productRequest.Qty,
+	}
+
+	res, bool := ps.ProductRepository.EditProduct(productRequest.Id, saveProduct)
+
+	if bool {
+		return dto.ProductResponse{
+			Id:        res.Id,
+			Nama:      res.Nama,
+			Harga:     res.Harga,
+			Quantity:  res.Qty,
+			CreatedAt: time.Now(),
+		}, true
+	}
+
+	return dto.ProductResponse{}, false
 }

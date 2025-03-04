@@ -11,10 +11,10 @@ type ProductRepository struct {
 	Product []entity.Product
 }
 
-func NewProductRepository() ProductRepository {
+func NewProductRepository() *ProductRepository {
 
 	// Ini membuat instance -> instance itu mengisi cetakan struct nya
-	return ProductRepository{
+	return &ProductRepository{
 		Product: []entity.Product{
 
 			{Id: 1, Nama: "Indomie", Harga: 2000, Qty: 10},
@@ -54,6 +54,21 @@ func (pr *ProductRepository) FindProductById(id int) (entity.Product, bool) {
 			return product, true
 		}
 
+	}
+
+	return entity.Product{}, false
+}
+
+func (pr *ProductRepository) EditProduct(id int, product entity.Product) (entity.Product, bool) {
+
+	for i, val := range pr.Product {
+		if id == val.Id {
+			pr.Product[i].Nama = product.Nama
+			pr.Product[i].Harga = product.Harga
+			pr.Product[i].Qty = product.Qty
+
+			return pr.Product[i], true
+		}
 	}
 
 	return entity.Product{}, false

@@ -7,11 +7,11 @@ import (
 )
 
 type ProductController struct {
-	ProductService service.ProductService
+	ProductService *service.ProductService
 }
 
-func NewProductController(productService service.ProductService) ProductController {
-	return ProductController{
+func NewProductController(productService *service.ProductService) *ProductController {
+	return &ProductController{
 		ProductService: productService,
 	}
 }
@@ -45,4 +45,15 @@ func (pc *ProductController) FindByIdController(id int) (dto.ProductResponse, st
 		return dto.ProductResponse{}, "Data not found"
 	}
 	return res, "Succes Find Data"
+}
+
+func (pc *ProductController) EditProductController(productReq dto.ProductRequest) (dto.ProductResponse, bool) {
+	res, bool := pc.ProductService.EditProductService(productReq)
+
+	if bool {
+		return res, true
+	}
+
+	return res, false
+
 }

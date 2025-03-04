@@ -1,16 +1,19 @@
 package repo
 
-import "latihan-golang/Logic/Example/entity"
+import (
+	"fmt"
+	"latihan-golang/Logic/Example/entity"
+)
 
 type UserRepository struct {
 	//Private final user
 	User []entity.User
 }
 
-func NewUserRepository() UserRepository {
+func NewUserRepository() *UserRepository {
 
 	// Buat instance
-	return UserRepository{
+	return &UserRepository{
 		User: []entity.User{
 			{Id: 1, UserName: "Mikhael", Age: 25},
 			{Id: 2, UserName: "Deni", Age: 30},
@@ -36,4 +39,16 @@ func (ur *UserRepository) AddUserRepo(user entity.User) entity.User {
 	ur.User = append(ur.User, saveUser)
 
 	return saveUser
+}
+
+func (ur *UserRepository) FindById(user int) (entity.User, bool) {
+	fmt.Println("Ids : ", user)
+	fmt.Println("tes ", ur.User)
+	for _, val := range ur.User {
+		if val.Id == user {
+			return val, true
+		}
+	}
+
+	return entity.User{}, false
 }
